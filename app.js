@@ -40,11 +40,10 @@ app.get('/median', (req, res, next) => {
     try {
         let { nums } = req.query;
         if (!nums) throw new ExpressError('nums are required.', 400);
-        nums = nums.split(',');
 
+        nums = nums.split(',');
         const parsedNums = nums.map((num) => parseInt(num));
 
-        // Find the element that is NaN
         const invalidInput = nums.filter((num) => isNaN(parseInt(num)));
 
         if (invalidInput.length > 0) {
@@ -65,6 +64,54 @@ app.get('/median', (req, res, next) => {
                 .status(200)
                 .json({ error: { operation: 'median', value: median } });
         }
+    } catch (err) {
+        next(err);
+    }
+});
+
+// Calculate Mode
+app.get('/mode', (req, res, next) => {
+    try {
+        let { nums } = req.query;
+
+        if (!nums) throw new ExpressError('nums are requied.', 400);
+
+        nums = nums.split(',');
+        const parsedNums = nums.map((num) => parseInt(num));
+
+        const invalidInput = nums.filter((num) => isNaN(parseInt(num)));
+
+        if (invalidInput.length > 0) {
+            throw new ExpressError(`${invalidInput[0]} is not a number.`, 400);
+        }
+
+        const count = {};
+
+        // Count occurrences of each number
+        for (let num of parsedNums) {
+            count[num] = (count[num] || 0) + 1;
+        }
+
+        // Find the most repeated num
+        let maximum = parsedNums[0];
+        for (let num in count) {
+            if (count[num] > maximum) {
+                maximum = count[num];
+            }
+        }
+
+        let modes = [];
+        for (let num in count) {
+            if (count[num] === maximum) {
+                modes.push(num);
+            }
+        }
+
+        modes = modes.length === 1 ? modes[0] : modes;
+
+        return res
+            .status(200)
+            .json({ response: { operation: 'mode', value: modes } });
     } catch (err) {
         next(err);
     }
