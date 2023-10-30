@@ -100,6 +100,7 @@ app.get('/mode', (req, res, next) => {
             }
         }
 
+        // Collect all numbers equal to the maximum number
         let modes = [];
         for (let num in count) {
             if (count[num] === maximum) {
@@ -107,6 +108,7 @@ app.get('/mode', (req, res, next) => {
             }
         }
 
+        // Return one mode or multiple based on the length of the modes array
         modes = modes.length === 1 ? modes[0] : modes;
 
         return res
