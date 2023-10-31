@@ -1,6 +1,6 @@
 # Express Calculator
 
-To start the server, download all the dependences using the command:
+Install all the dependences using the command:
 
 ```
 npm i
