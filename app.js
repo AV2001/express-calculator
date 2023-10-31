@@ -62,7 +62,7 @@ app.get('/median', (req, res, next) => {
                 (parsedNums[length / 2 - 1] + parsedNums[length / 2]) / 2;
             return res
                 .status(200)
-                .json({ error: { operation: 'median', value: median } });
+                .json({ response: { operation: 'median', value: median } });
         }
     } catch (err) {
         next(err);
