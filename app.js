@@ -104,7 +104,7 @@ app.get('/mode', (req, res, next) => {
         let modes = [];
         for (let num in count) {
             if (count[num] === maximum) {
-                modes.push(num);
+                modes.push(parseInt(num));
             }
         }
 
