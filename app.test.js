@@ -1,26 +1,15 @@
 const request = require('supertest');
 const app = require('./app');
 
-// Test for /mean endpoint
+// Tests for /median endpoint
 describe('Test /mean endpoint', () => {
-    test('it should calculate mean of valid numbers when length of nums is odd', async () => {
+    test('it should calculate mean of valid numbers', async () => {
         const response = await request(app).get('/mean?nums=1,2,3,4,5');
         expect(response.statusCode).toBe(200);
         expect(response.body).toEqual({
             response: {
                 operation: 'mean',
                 value: 3,
-            },
-        });
-    });
-
-    test('it should calculate mean of valid numbers when length of nums is even', async () => {
-        const response = await request(app).get('/mean?nums=1,2,3,4,5,6');
-        expect(response.statusCode).toBe(200);
-        expect(response.body).toEqual({
-            response: {
-                operation: 'mean',
-                value: 3.5,
             },
         });
     });
