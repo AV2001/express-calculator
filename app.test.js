@@ -83,3 +83,52 @@ describe('Test /median endpoint', () => {
         });
     });
 });
+
+// Tests for /mode endpoint
+describe('Test /mode endpoint', () => {
+    test('it should calculate the mode of valid numbers when there is only one mode', async () => {
+        const response = await request(app).get('/mode?nums=1,2,2,3,4,5');
+        expect(response.statusCode).toBe(200);
+        expect(response.body).toEqual({
+            response: {
+                operation: 'mode',
+                value: 2,
+            },
+        });
+    });
+
+    test('it should calculate the mode of valid numbers when nums is bi-modal', async () => {
+        const response = await request(app).get(
+            '/mode?nums=1,2,2,3,3,3,4,4,4,4,5,5,5,5'
+        );
+        expect(response.statusCode).toBe(200);
+        expect(response.body).toEqual({
+            response: {
+                operation: 'mode',
+                value: [4, 5],
+            },
+        });
+    });
+
+    test('it should return an error when an invalid element is passed to nums', async () => {
+        const response = await request(app).get('/mean?nums=1,2,foo,3');
+        expect(response.statusCode).toBe(400);
+        expect(response.body).toEqual({
+            error: {
+                message: 'foo is not a number.',
+                status: 400,
+            },
+        });
+    });
+
+    test('it should return an error when nums is missing', async () => {
+        const response = await request(app).get('/mean');
+        expect(response.statusCode).toBe(400);
+        expect(response.body).toEqual({
+            error: {
+                message: 'nums are required.',
+                status: 400,
+            },
+        });
+    });
+});
